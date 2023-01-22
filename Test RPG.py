@@ -1,21 +1,59 @@
 import time
+import random
 
 
-class Creator():
+class Creator():  # Створюємо класс істот
     def __init__(self, life, defence, damage):
         self.level = 1
         self.experience = 0
         self.life = life
         self.defence = defence
         self.damage = damage
-        self.critical = 10
+        self.critical = 10  # Шанс критичного урону
+        self.penetrating = 15  # Шанс игнорування броні
 
-    def attack(self, user):
-        user.life -= self.damage - user.defence
+    def attack(self, user):  # функція атаки
+        if random.randint(1, 100) <= self.critical:  # перевірка на 10-ти відсотковий критичний удар
+            if random.randint(1, 100) <= self.penetrating:
+                user.life -= self.damage * 2
+            else:
+                user.life -= (self.damage - user.defence) * 2
+        else:
+            if random.randint(1, 100) <= self.penetrating:  # перевірка на 15-ти відсотковий удар крізь броню
+                user.life -= self.damage
+            else:
+                user.life -= self.damage - user.defence
 
 
-hero = Creator(100, 10, 40)
-creature = Creator(40, 10, 20)
+hero = Creator(100, 10, 40)  # параметри героя
+creature = Creator(40, 10, 20)  # параметри істоти
+
+
+def increase_level():
+    hero.level += 1
+    print("""
+    1. Life
+    2. Defence
+    3. Damage
+    4. Critical hit chance
+    5. Penetrating
+    """)
+    option = int(input('Which one do you choose?'))
+    if option == 1:
+        hero.life += 10
+        print(f'Now you have {hero.life} life')
+    elif option == 2:
+        hero.defence += 2
+        print(f'Now you have {hero.defence} defence')
+    elif option == 3:
+        hero.damage += 2
+        print(f'Now you have {hero.damage} damage')
+    elif option == 4:
+        hero.critical += 1
+        print(f'Now you have {hero.critical} critical')
+    elif option == 5:
+        hero.penetrating += 1
+        print(f'Now you have {hero.penetrating} penetrating')
 
 
 def attack_creature():
@@ -24,6 +62,7 @@ def attack_creature():
     1. Show the details
     2. Don`t show the details
     '''))
+    # детальний бій (кто кого б'є і т.д.)
     if version == 1:
         while True:
             input('Press Enter to attack')
@@ -49,7 +88,7 @@ def attack_creature():
                 break
             print(f'Hero has {hero.life} life')
 
-    # Ускореная версия боя, без событий
+    # прискорена версія бою
     elif version == 2:
         while True:
             hero.attack(creature)
@@ -79,4 +118,3 @@ def main():
 
 while True:
     main()
-
