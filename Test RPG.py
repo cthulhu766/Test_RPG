@@ -31,6 +31,7 @@ creature = Creator(40, 10, 20)  # параметри істоти
 
 def increase_level():
     hero.level += 1
+    print(f'Your Lvl is {hero.level}')
     print("""
     1. Life
     2. Defence
@@ -58,6 +59,8 @@ def increase_level():
 
 def attack_creature():
     creature_number = int(input('How many creatures do you want to attack?'))
+    number_expirience = creature_number
+    hero_life = hero.life
     version = int(input('''
     1. Show the details
     2. Don`t show the details
@@ -69,7 +72,15 @@ def attack_creature():
             time.sleep(2)
             hero.attack(creature)
             if creature.life <= 0 and creature_number == 1:
+
+                hero.experience += number_expirience*50
+
+                if hero.experience >= hero.level*100:
+                    hero.life = hero_life
+                    increase_level()
+
                 print('Creature is dead, You Won!')
+
                 break
             elif creature.life <= 0 and creature_number > 1:
                 creature_number -= 1
@@ -88,22 +99,9 @@ def attack_creature():
                 break
             print(f'Hero has {hero.life} life')
 
-    # прискорена версія бою
+    # прискорена версія бою (треба пофіксити)
     elif version == 2:
-        while True:
-            hero.attack(creature)
-            if creature.life <= 0 and creature_number == 1:
-                print('Creature is dead, You Won!')
-                break
-            elif creature.life <= 0 and creature_number > 1:
-                creature_number -= 1
-
-            for i in range(creature_number):
-                creature.attack(hero)
-
-            if hero.life <= 0:
-                print('Hero is dead')
-                break
+        pass
 
 
 def main():
