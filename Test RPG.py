@@ -77,7 +77,7 @@ def attacking_boss():
     elif version == 2:
         pass
     if hero.boss_level > 99:
-        print('It is the last boss')
+        print('It is the last boss`')
 
 def increase_level():
     hero.level += 1
