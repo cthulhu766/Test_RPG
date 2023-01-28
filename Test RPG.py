@@ -121,8 +121,9 @@ def attack_creature():
             input('Press Enter to attack')
             time.sleep(2)
             hero.attack(creature)
-            if creature.life <= 0 and creature_number == 1:
 
+            if creature.life <= 0 and creature_number == 1:
+                print('Creatures are death, You won!')
                 hero.experience += number_expirience*50
                 hero.life = hero_life
                 if hero.experience >= hero.level*100:
